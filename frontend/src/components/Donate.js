@@ -4,7 +4,6 @@ import { Link, json, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "./Navbar";
 import Hnavbar from "./Hnavbar";
-import Medicines from "./Medicines";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { API_BASE_URL } from "../config";
@@ -439,9 +438,6 @@ export default function Donate() {
                   &gt;{" "}
                 </button>
               </div>
-              {/* <div>
-                <MultipleImageUpload />
-              </div> */}
               <button
                 className="button-53"
                 onClick={() => {

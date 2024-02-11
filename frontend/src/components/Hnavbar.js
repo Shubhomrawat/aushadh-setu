@@ -45,12 +45,12 @@ export default function Hnavbar(props) {
                     About Us
                   </span>
                 </Link> */}
-                {/* <Link className="aboutucurs " to="/profile">
+                <Link className="aboutucurs " to="/profile">
                   <span id="nonev" style={{ cursor: "pointer" }}>
                     Profile
                   </span>
                   <img className="prof" src="./profile-pic.png" alt="" />
-                </Link> */}
+                </Link>
               </div>
             </div>
           </div>

@@ -8,7 +8,6 @@ import Hnavbar from "./Hnavbar";
 import "../css/Modal.css";
 import { API_BASE_URL } from "../config";
 import "../css/Modal.css";
-import geocode from "./geocodeFun";
 import * as Yup from "yup";
 import googleGeocode from "./googleGeocode"
 
