@@ -24,7 +24,8 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-    },
+
+    }
   ],
   no_of_medicines: {
     type: Number,
@@ -98,6 +99,9 @@ const orderSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  image_url:{
+    type: String,
+  }
 });
 
 module.exports = mongoose.model("ORDER", orderSchema);

@@ -11,12 +11,12 @@ import { API_BASE_URL } from "../config";
 import geocode from "./googleGeocode";
 import * as Yup from "yup";
 import Modal from "react-modal";
-import {CLOUD_NAME, API_KEY, API_SECRET} from '../keys'
-import {Cloudinary} from "@cloudinary/url-gen";
-
-// const App = () => {
-//   const cld = new Cloudinary({cloud: {cloudName: CLOUD_NAME}});
-// };
+// import { CLOUD_NAME, API_KEY, API_SECRET } from '../keys'
+import { Cloudinary } from "@cloudinary/url-gen";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import {CLOUD_NAME, UPLOAD_PRESET} from '../keys'
 
 export default function Donate() {
   const [medicineForms, setMedicineForms] = useState([]);
@@ -29,7 +29,7 @@ export default function Donate() {
   const [sug, showsug] = useState(!false);
   const [coordinates, setCoordinates] = useState(null);
   const [medicineList, setMedicineList] = useState([]);
-  const [image, setImage] = useState()
+  const [image_url, setImage_url] = useState()
 
   const handleAddForm = async () => {
     try {
@@ -57,6 +57,7 @@ export default function Donate() {
             quantity: quantity,
             expiry_date: expiry_date,
             location: location,
+            
           },
         ]);
         setCount((previousCount) => previousCount + 1);
@@ -125,7 +126,7 @@ export default function Donate() {
   }, []);
 
   const locationInput = document.getElementById("location");
-  
+
   const searchBox = new window.google.maps.places.SearchBox(locationInput);
 
   const handleLocationChange = (e) => {
@@ -136,8 +137,6 @@ export default function Donate() {
       const places = searchBox.getPlaces();
 
       if (places && places.length > 0) {
-        // Set the location place to the first result
-
         const selected = places[0].formatted_address;
         setLocation(selected);
       }
@@ -149,7 +148,6 @@ export default function Donate() {
 
   const postOrderData = async () => {
     try {
-      // const totalmeds = for
       const validation = await AddBtnValidation.validate(
         {
           count: count,
@@ -185,6 +183,7 @@ export default function Donate() {
             location: location,
             coordinates: coordinates,
             donar: donar,
+            image_url: image_url
           };
 
           fetch(`${API_BASE_URL}/donate-medicines`, {
@@ -212,6 +211,38 @@ export default function Donate() {
 
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [imagePreviewModal, setImagePreviewModal] = useState(false)
+  const [selectedImage, setSelectedImage] = useState('')
+  const [selectedFile, setSelectedFile] = useState(null)
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+  
+  const uploadImg = async() => {
+    const data = new FormData();
+    data.append("file", selectedFile);
+    data.append("upload_preset", UPLOAD_PRESET);
+    data.append("cloud_name", CLOUD_NAME);
+  
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+      method: "post",
+      body: data,
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      setImage_url(data.url);
+      console.log(data.url);
+    })
+    .catch((err) => console.log(err));
+  };
+  
+  useEffect(()=>{
+    if(selectedFile != null){
+      uploadImg()
+    }
+    
+  },[selectedFile])
   //Validate form
   const validationSchema = Yup.object().shape({
     medicine_name: Yup.string()
@@ -230,6 +261,8 @@ export default function Donate() {
   const AddBtnValidation = Yup.object().shape({
     count: Yup.number().min(2, "Click Add before Donate"),
   });
+  
+
 
   return (
     <div className="donateeapp">
@@ -308,23 +341,78 @@ export default function Donate() {
                   value={location}
                   onChange={(e) => handleLocationChange(e)}
                 />
-                {/* <div>
-                {selectedImage ? (
-                  <Modal
-                    className="Model__Container"
-                    isOpen={imagePreviewModal}
-                    onRequestClose={onclose}>
-                    <img src={selectedImage} alt="Selected" />
-                    <button>Close</button>
-                  </Modal>
-                ) : (
-                  <p>No image selected</p>
-                )}
                 <div>
-                  <input type="file" accept="image/*" onChange={handleFileUpload} />
-                  <button onClick={handleTakePhoto}>Take Photo</button>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <label 
+                      htmlFor="file-input" 
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        cursor: 'pointer', 
+                        margin: 'auto' 
+                        }}>
+                      <FontAwesomeIcon 
+                        icon={faUpload} 
+                        style={{ marginRight: 'auto', 
+                        marginLeft: 'auto' 
+                        }} 
+                      />
+                    </label>
+                    <input
+                      id="file-input"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      style={{ display: 'none' }}
+                    />
+                    {selectedFile ? (
+                      <>
+                          <FontAwesomeIcon icon={faEye} 
+                            style={{ 
+                              margin: '8px', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              cursor: 'pointer', 
+                              margin: 'auto' 
+                            }}
+                          onClick={() => setImagePreviewModal(true)}
+                          />
+          
+                        <Modal
+                    // className="Model__Container"
+                          isOpen={imagePreviewModal}
+                          onRequestClose={() => { setImagePreviewModal(false) }}
+                          style={{
+                            content: {
+                              width: '50%',
+                              height: '50%', 
+                              margin: 'auto', 
+                            }
+                          }}
+                        >
+                          <img 
+                            src={URL.createObjectURL(selectedFile)}
+                            alt="Selected"
+                            style={{
+                              maxWidth: '100%',
+                              maxHeight: '100%',
+                        
+                            }}
+                          />
+                          <button 
+                            className="button-53"
+                           onClick={() => { setImagePreviewModal(false) }}
+                          >
+                            Close
+                          </button>
+                        </Modal>
+                      </>
+
+                    ) : (
+                      <p style={{ marginRight: 'auto', marginLeft: 'auto' }}>No image selected</p>
+                    )}
+                  </div>
                 </div>
-              </div> */}
               </div>
               <div className="leftrightfunc">
                 <button
@@ -351,6 +439,9 @@ export default function Donate() {
                   &gt;{" "}
                 </button>
               </div>
+              {/* <div>
+                <MultipleImageUpload />
+              </div> */}
               <button
                 className="button-53"
                 onClick={() => {

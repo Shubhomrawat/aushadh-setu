@@ -78,14 +78,14 @@ export default function Navbar(props) {
               Analytics
             </li>
           </Link>
-          {/* <Link className="borderrad" to="/filter-orders">
+          <Link className="borderrad" to="/filter-orders">
             <div className="navimgspace">
               <img className="navimg" src="./filter.png" alt="" />
             </div>
             <li style={{ color: "black" }} className="navli">
               Filter Orders
             </li>
-          </Link> */}
+          </Link>
 
           <Link className="borderrad" to="/users">
             <div className="navimgspace">

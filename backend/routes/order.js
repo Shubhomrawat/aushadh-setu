@@ -153,6 +153,7 @@ router.post("/api/donate-medicines", async (req, res, next) => {
       donar,
       requester,
       coordinates,
+      image_url
     } = req.body;
     // var coordinates = null
 
@@ -170,6 +171,7 @@ router.post("/api/donate-medicines", async (req, res, next) => {
         date: istDate,
         time: istTime,
       },
+      image_url: image_url
     });
     if (data) {
       await USER.updateOne({ _id: donar }, { $inc: { credits: 100 } });

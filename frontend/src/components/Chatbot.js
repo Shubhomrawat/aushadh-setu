@@ -290,9 +290,10 @@ const Chatbot = () => {
                 {inputMessage === "" ? (
                   <></>
                 ) : (
-                  <button type="submit" id="sendbutton">
-                    <img src="./send.png" id="sendicon" alt="send" />
-                  </button>
+                  // <button type="submit" id="sendbutton">
+                  //   <img src="./send.png" id="sendicon" alt="send" />
+                  // </button>
+                  <></>
                 )}
               </form>
             </div>

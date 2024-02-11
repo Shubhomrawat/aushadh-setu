@@ -26,6 +26,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserProvider } from "./components/UserContext";
 import GeneralPredict from "./components/GeneralPredict";
 import Chatbot from "./components/Chatbot";
+import FilterOrders from "./components/FilterOrders";
+
 
 function App() {
   const [showvNavbar, setShowvNavbar] = useState(false);
@@ -45,24 +47,26 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="/home" element={<Home />}></Route>
-            {/* <Route path="/analytics" element={<Analytics />}></Route> */}
+            <Route path="/analytics" element={<Analytics />}></Route>
             <Route path="/signup" element={<SignUp />}></Route>
             <Route path="/signin" element={<SignIn />}></Route>
             <Route path="/donate-medicines" element={<Donate />}></Route>
+            <Route path="/filter-orders" element={<FilterOrders />}></Route>
             {/* <Route path="/request-medicines" element={<Request />}></Route> */}
             <Route path="/medicines" element={<Medicines />}></Route>
             <Route path="/orders" element={<Orders />}></Route>
-            {/* <Route path="/disease-predictions" element={<DiseasePredictions />} ></Route> */}
+            <Route path="/disease-predictions" element={<DiseasePredictions />} ></Route>
             <Route path="/profile" element={<Profile />}></Route>
-            {/* <Route path="/user/:id" element={<UserProfile />}></Route> */}
+            <Route path="/user/:id" element={<UserProfile />}></Route>
             <Route path="/user" element={<UserProfile />} />
             <Route path="/users" element={<Users />}></Route>
             <Route path="/volunteer" element={<Volunteer />}></Route>
             <Route path="/search-medicines" element={<Inventory />}></Route>
-            {/* <Route path="/nearby-hospitals" element={<Hospitals />}></Route> */}
+            <Route path="/nearby-hospitals" element={<Hospitals />}></Route>
             <Route path="/brainTumor" element={<Braintumor />}></Route>
             <Route path="/Pneumonia" element={<Pneumonia />}></Route>
             <Route path="/subscribe" element={<Subscribe />}></Route>
+            <Route path="/chatbot" element={<Chatbot />}></Route>
           </Routes>
           <ToastContainer theme="light" />
         </div>
