@@ -69,7 +69,6 @@ http://localhost:3000/
 * Express
 * Socket.io
 * Tensorflow
-* Pickle
 * Google Maps API
 * Twilio
 * Firebase
